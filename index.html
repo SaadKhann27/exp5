@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather App</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            width: 400px;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        input {
+            padding: 8px;
+            width: 65%;
+        }
+
+        button {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        h1 {
+            margin: 10px 0;
+        }
+
+        .temp {
+            font-size: 48px;
+            font-weight: bold;
+        }
+
+        .condition {
+            font-size: 18px;
+            color: gray;
+            margin-bottom: 20px;
+        }
+
+        .info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .card {
+            background: #f1f1f1;
+            padding: 10px;
+            width: 45%;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Weather App</h2>
+
+    <input type="text" id="city" placeholder="Enter city">
+    <button onclick="getWeather()">Search</button>
+
+    <h1 id="location"></h1>
+
+    <div class="temp" id="temperature"></div>
+
+    <div class="condition" id="condition"></div>
+
+    <div class="info">
+        <div class="card">
+            <b>Humidity</b>
+            <div id="humidity"></div>
+        </div>
+
+        <div class="card">
+            <b>Wind</b>
+            <div id="wind"></div>
+        </div>
+    </div>
+
+    <div class="info">
+        <div class="card">
+            <b>Pressure</b>
+            <div id="pressure"></div>
+        </div>
+
+        <div class="card">
+            <b>Feels Like</b>
+            <div id="feels"></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+function getWeather() {
+
+    var city = document.getElementById("city").value.trim();
+
+    var apiKey = "a512d99fa90f16dbb48dac0324df6a07";  // 🔑 Replace with your key
+
+    var url = "https://api.openweathermap.org/data/2.5/weather?q="
+              + city +
+              "&appid=" + apiKey +
+              "&units=metric";
+
+    fetch(url)
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(data) {
+
+        if (data.cod == 200) {
+
+            document.getElementById("location").innerHTML =
+                data.name + ", " + data.sys.country;
+
+            document.getElementById("temperature").innerHTML =
+                data.main.temp + "°C";
+
+            document.getElementById("condition").innerHTML =
+                data.weather[0].description;
+
+            document.getElementById("humidity").innerHTML =
+                data.main.humidity + "%";
+
+            document.getElementById("wind").innerHTML =
+                data.wind.speed + " m/s";
+
+            document.getElementById("pressure").innerHTML =
+                data.main.pressure + " hPa";
+
+            document.getElementById("feels").innerHTML =
+                data.main.feels_like + "°C";
+
+        } else {
+
+            alert("City not found!");
+
+        }
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
