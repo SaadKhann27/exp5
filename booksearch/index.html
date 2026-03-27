@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Book Search</title>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f4f4f4;
+text-align:center;
+padding:40px;
+}
+
+h2{
+color:#333;
+}
+
+#search{
+width:300px;
+padding:10px;
+font-size:16px;
+border-radius:5px;
+border:1px solid #ccc;
+}
+
+#result{
+margin-top:30px;
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:20px;
+}
+
+.book{
+background:white;
+padding:15px;
+width:200px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.book img{
+width:100%;
+height:250px;
+object-fit:cover;
+border-radius:5px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Book Search</h2>
+
+<input type="text" id="search" placeholder="Search book...">
+
+<div id="result"></div>
+
+<script>
+
+$(document).ready(function(){
+
+$("#search").keyup(function(){
+
+var text=$(this).val();
+
+$.ajax({
+url:"search.php",
+method:"POST",
+data:{search:text},
+success:function(data){
+$("#result").html(data);
+}
+});
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
